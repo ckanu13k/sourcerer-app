@@ -10,9 +10,6 @@ import app.model.DiffFile
 class SwiftExtractor : ExtractorInterface {
     companion object {
         val LANGUAGE_NAME = "swift"
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier(LANGUAGE_NAME)
-        }
         val importRegex = Regex("""^(.*import)\s[^\n]*""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val extractImportRegex = Regex("""import\s+(\w+)""")
@@ -46,7 +43,6 @@ class SwiftExtractor : ExtractorInterface {
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
 
-        return super.getLineLibraries(line, fileLibraries, evaluator,
-            LANGUAGE_NAME)
+        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
     }
 }

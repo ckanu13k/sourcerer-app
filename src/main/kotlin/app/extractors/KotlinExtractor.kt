@@ -9,10 +9,6 @@ import app.model.DiffFile
 class KotlinExtractor : ExtractorInterface {
     companion object {
         val LANGUAGE_NAME = "kotlin"
-        val LIBRARIES = ExtractorInterface.getLibraries(LANGUAGE_NAME)
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier(LANGUAGE_NAME)
-        }
         val importRegex = Regex("""^(.*import)\s[^\n]*""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val packageRegex = Regex("""^(.*package)\s[^\n]*""")
@@ -31,11 +27,7 @@ class KotlinExtractor : ExtractorInterface {
             val res = extractImportRegex.find(it)
             if (res != null) {
                 val importedName = res.groupValues[1]
-                LIBRARIES.forEach { library ->
-                    if (importedName.startsWith(library)) {
-                        imports.add(library)
-                    }
-                }
+                imports.add(importedName)
             }
         }
 
@@ -52,7 +44,6 @@ class KotlinExtractor : ExtractorInterface {
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
 
-        return super.getLineLibraries(line, fileLibraries, evaluator,
-            LANGUAGE_NAME)
+        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
     }
 }

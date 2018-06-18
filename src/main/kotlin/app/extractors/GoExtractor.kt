@@ -10,9 +10,6 @@ import app.model.DiffFile
 class GoExtractor : ExtractorInterface {
     companion object {
         val LANGUAGE_NAME = "go"
-        val evaluator by lazy {
-            ExtractorInterface.getLibraryClassifier(LANGUAGE_NAME)
-        }
         val importRegex = Regex("""^(.*import)\s[^\n]*""")
         val commentRegex = Regex("""^([^\n]*//)[^\n]*""")
         val singleImportRegex = Regex("""import\s+"(\w+)"""")
@@ -57,7 +54,6 @@ class GoExtractor : ExtractorInterface {
     override fun getLineLibraries(line: String,
                                   fileLibraries: List<String>): List<String> {
 
-        return super.getLineLibraries(line, fileLibraries, evaluator,
-            LANGUAGE_NAME)
+        return super.getLineLibraries(line, fileLibraries, LANGUAGE_NAME)
     }
 }
